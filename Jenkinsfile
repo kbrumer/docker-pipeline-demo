@@ -18,7 +18,7 @@ pipeline {
     stage('Docker build') {
       steps {
         script {
-          docker.build("$IMAGE","trusthcs/ecr-demo")
+          docker.build("$IMAGE",".")
         }
 
       }
