@@ -23,14 +23,6 @@ pipeline {
 
       }
     }
-    stage('Docker tag') {
-      steps {
-        script {
-          docker.tag("trusthcs/ecr-demo:1.0.0.101", "659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101")
-        }
-
-      }
-    }
     stage('Docker configuration') {
 	  steps {  
         sh("aws ecr get-login --no-include-email --region us-east-1 | xargs xargs")
