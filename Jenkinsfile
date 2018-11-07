@@ -18,20 +18,24 @@ pipeline {
     stage('Docker build') {
       steps {
         script {
-          docker.build("$IMAGE",".")
+          docker.build("trusthcs/ecr-demo:1.0.0.101",".")
+        }
+
+      }
+    }
+    stage('Docker tag') {
+      steps {
+        script {
+          docker.tag("trusthcs/ecr-demo:1.0.0.101", "659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101")
         }
 
       }
     }
     stage('Docker push') {
       steps {
-        script {
-          docker.withRegistry(ECRURL, ECRCRED)
-          {
-            docker.image(IMAGE).push()
-          }
-        }
+        sh '''sh("eval \\$(aws ecr get-login --no-include-email"))
 
+docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101").push()'''
       }
     }
   }
