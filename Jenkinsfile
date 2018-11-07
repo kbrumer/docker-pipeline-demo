@@ -34,8 +34,7 @@ pipeline {
     stage('Docker push') {
       steps {
 	  	sh("eval \$(aws ecr get-login --no-include-email)")
-	  	def image = docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101")
-	  	image.push()
+	  	docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101").push("this is a test")
       }
     }
   }
