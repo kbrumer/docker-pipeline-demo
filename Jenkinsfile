@@ -39,9 +39,11 @@ pipeline {
     
     stage('Docker push') {
       steps {
-	    docker.withRegistry("http://659218023839.dkr.ecr.us-east-1.amazonaws.com") {  
-	  	  docker.image("trusthcs/ecr-demo:1.0.0.101").push(env.BUILD_NUMBER)
-	  	}  
+	    script {  
+	      docker.withRegistry("http://659218023839.dkr.ecr.us-east-1.amazonaws.com") {  
+	  	    docker.image("trusthcs/ecr-demo:1.0.0.101").push(env.BUILD_NUMBER)
+	  	  }  
+	  	}
       }
     }
   }
