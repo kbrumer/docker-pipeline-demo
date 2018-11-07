@@ -31,10 +31,17 @@ pipeline {
 
       }
     }
+    stage('Docker configuration') {
+	  steps {  
+        sh("aws ecr get-login --no-include-email --region us-east-1 | xargs xargs")
+      }
+    }
+    
     stage('Docker push') {
       steps {
-	  	sh("eval \$(aws ecr get-login --no-include-email)")
-	  	docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101").push("this is a test")
+	    docker.withRegistry("http://659218023839.dkr.ecr.us-east-1.amazonaws.com") {  
+	  	  docker.image("trusthcs/ecr-demo:1.0.0.101").push(env.BUILD_NUMBER)
+	  	}  
       }
     }
   }
