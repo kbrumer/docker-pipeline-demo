@@ -33,9 +33,8 @@ pipeline {
     }
     stage('Docker push') {
       steps {
-        sh '''sh("eval \\$(aws ecr get-login --no-include-email"))
-
-docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101").push()'''
+	  	sh("eval \\$(aws ecr get-login --no-include-email)")
+	  	docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0.0.101").push()
       }
     }
   }
@@ -45,13 +44,6 @@ docker.image("659218023839.dkr.ecr.us-east-1.amazonaws.com/trusthcs/ecr-demo:1.0
     IMAGE = 'docker-pipline-demo:latest'
     ECRURL = 'http://659218023839.dkr.ecr.us-east-1.amazonaws.com'
     ECRCRED = 'ecr:us-east-1:jenkins-aws-ecr'
-  }
-  post {
-    always {
-      sh "docker rmi $IMAGE | true"
-
-    }
-
   }
   options {
     buildDiscarder(logRotator(numToKeepStr: '3'))
